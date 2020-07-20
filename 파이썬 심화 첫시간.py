@@ -199,3 +199,39 @@ print('-'*20)
 # if len(sys.argv) != 2:
 #    print(f"#usage: python {sys.argv[0]} [name]")
 #    sys.exit()
+
+#try :
+#    with open(f, 'r') as handle:
+#        read = handle.readlines() # list로 변환
+#except FileNotFoundError:
+#    print(f"{f} not found.. please check..")
+#    sys.exit()
+#print(read)
+
+#try:
+#    num = int(sys.argv[1])
+#    print(10 / num)
+#except ZeroDivisionError:
+#    print("Do not use Zero")
+#    sys.exit()
+#except ValueError:
+#    print("input not valid")
+#    sys.exit()
+## python read.py 0
+
+#20 문자열 더하기
+s1 = "Bio"
+s2 = "Informatics"
+s = s1 + s2
+print(s)
+print('-'*20)
+
+#21
+Seq1 = 'AGTTTATAG'
+print(Seq1[3:6])
+print('-'*20)
+
+#22
+Seq1 = 'ATGttATaG'
+print(Seq1.upper())
+print('-'*20)
