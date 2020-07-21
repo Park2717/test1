@@ -235,3 +235,10 @@ print('-'*20)
 Seq1 = 'ATGttATaG'
 print(Seq1.upper())
 print('-'*20)
+
+#github 업로드 방법
+
+#0) git status  로 상태 확인
+#1) git add .  로 모든 파일 추가
+#2) git commit -m "메시지"  로 파일 commit
+#3) git push origin master
