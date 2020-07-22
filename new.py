@@ -1,6 +1,12 @@
-#! usr/bin/python
+#! /usr/bin/python
 
-print("new")
-print("hello")
-print("hi")
-print("hi")
+total = 0
+
+with open("077.bed", 'r') as handle:
+    for line in handle:
+        splitted = line.strip().split("\t")
+        start = int(splitted[1])
+        end = int(splitted[2])
+        total += end - startswith
+
+print()
