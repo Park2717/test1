@@ -7,6 +7,6 @@ with open("077.bed", 'r') as handle:
         splitted = line.strip().split("\t")
         start = int(splitted[1])
         end = int(splitted[2])
-        total += end - startswith
+        total += end - start
 
-print()
+print(total)
