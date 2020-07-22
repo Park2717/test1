@@ -111,3 +111,163 @@ def k_mer(l1, l2, num):
             l_tmp.append(i+j)
     return k_mer(l1, l_tmp, num-1)
 print(k_mer(l1, l2, 3))
+
+# 077.bed의 읽는 총 염기 개수
+total = 0
+
+with open("077.bed", 'r') as handle:
+    for line in handle:
+        splitted = line.strip().split("\t")
+        start = int(splitted[1])
+        end = int(splitted[2])
+        total += end - start
+
+print(total)
+
+# 070.vcf 이용해서 chr line 수 나타내기
+
+count = 0
+with open("070.vcf", 'r') as handle:
+    for line in handle:
+        if line.startswith("#"):
+            continue
+        count += 1
+print(count)
+
+# 070.vcf 이용해서 PASS가 있는 column 출력
+# 리눅스에서는 cat 070.vcf | grep "PASS" | wc-l 로 출력
+cnt = 0
+with open("070.vcf", 'r') as handle:
+    for line in handle:
+        if line.startswith("#"):
+            continue
+        else:
+            splitted = line.strip().split("\t")
+            if splitted[6] == 'PASS':
+                cnt += 1
+print(cnt)
+
+#정답안
+cnt = 0
+with open("070.vcf", 'r') as handle:
+    for line in handle:
+        if line.startswith("##"):
+            continue
+        if line.startswith("#"):
+            header = line.strip().split("\t")
+            filt_idx = header.index("FILTER")
+        splitted = line.strip().split("\t")
+        if splitted[filt_idx] == 'PASS':
+            cnt += 1
+print(cnt)
+
+with open("070.vcf", 'r') as handle:
+    for line in handle:
+        if line.startswith("##"):
+            continue
+        if line.startswith("#"):
+            header = line.strip().split("\t")
+            ID_idx = header.index("ID")
+        splitted = line.strip().split("\t")
+        if splitted[ID_idx].startswith("rs"):
+            print(splitted[0],"\t",splitted[1],"\t",splitted[3],"\t",splitted[4],"\t",splitted[2])
+
+#정답안
+with open("070.vcf", 'r') as handle:
+    for line in handle:
+        if line.startswith("##"):
+            continue
+        if line.startswith("#"):
+            header = line.strip().split("\t")
+            ID_idx = header.index("ID")
+        splitted = line.strip().split("\t")
+        chrom = splitted[0]
+        pos = splitted[1]
+        id_ = splitted[2]
+        ref = splitted[3]
+        alt = splitted[4]
+        if splitted[ID_idx] != '.':
+            print(f"{chrom}-{pos}-{ref}-{alt}-{id_}")
+
+# ALT 개수 세기
+count = 0
+with open("070.vcf", 'r') as handle:
+    for line in handle:
+        if line.startswith("##"):
+            continue
+        if line.startswith("#"):
+            header = line.strip().split("\t")
+            ALT_idx = header.index("ALT")
+            continue
+        splitted = line.strip().split("\t")
+        alts = splitted[ALT_idx].split(',')
+        for alt in alts:
+            count += 1
+print(count)
+
+#정답안
+cnt = 0
+with open("070.vcf", 'r') as handle:
+    for line in handle:
+        if line.startswith("#"):
+            continue
+        splitted = line.strip().split("\t")
+        alts = splitted[4].split(',') # ,가 없어도 없는대로 split이 된다
+        for alt in alts:
+            cnt += 1
+print(cnt)
+
+# SNP와 Insertion, Delition 개수 세기
+SNP = 0
+DEL = 0
+INS = 0
+with open("070.vcf", 'r') as handle:
+    for line in handle:
+        if line.startswith("##"):
+            continue
+        if line.startswith("#"):
+            header = line.strip().split("\t")
+            ALT_idx = header.index("ALT")
+            REF_idx = header.index("REF")
+            continue
+        splitted = line.strip().split("\t")
+        refs = splitted[REF_idx].split(',')
+        alts = splitted[ALT_idx].split(',')
+        if len(refs) == len(alts):
+            SNP += 1
+        elif len(refs) > len(alts):
+            DEL += 1
+        elif len(refs) < len(alts):
+            INS += 1
+print("SNP:",SNP, "DEL:",DEL, "INS:", INS)
+
+#정답안 (사진보기)
+#import pandas as pd #pandas program을 pd라는 명령어로 받겠다
+#from matplotlib import pyplot as plt
+
+d = {"SNP":0, "DEL":0, "INS":0}
+with open("070.vcf", 'r') as handle:
+    for line in handle:
+        if line.startswith("##"):
+            continue
+        if line.startswith("#"):
+            header = line.strip().split("\t")
+            ALT_idx = header.index("ALT")
+            REF_idx = header.index("REF")
+            continue
+        splitted = line.strip().split("\t")
+        refs = splitted[REF_idx].split(',')
+        alts = splitted[ALT_idx].split(',')
+        if len(refs) == len(alts):
+            d["SNP"] += 1
+        elif len(refs) > len(alts):
+            d["DEL"] += 1
+        elif len(refs) < len(alts):
+            d["INS"] += 1
+        else: #방어적 코딩
+            raise
+print(d)
+#df = pd.DataFrame([d])
+#print(df)
+#df.plot.bar()
+#plt.savefig("v.png")
