@@ -87,9 +87,18 @@ print(l)
 print()
 
 ##5 k-mer 프로그램 (아직 못품)
-
+import random
 DNA = ['A', 'T', 'G', 'C']
 def k_mer(num):
     result = []
     count = num
     odd = []
+    while 1:
+        if len(odd) != (4**count):
+            result += (random.choice(DNA) + random.choice(DNA) + random.choice(DNA))
+            odd = set(result)
+            continue
+        else :
+            print(odd)
+            break
+k_mer(3)
